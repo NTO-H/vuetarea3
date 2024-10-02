@@ -1,5 +1,17 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <View/>
   </div>
 </template>
+
+<script>
+// @ is an alias to /src
+import View from '@/components/View-3.vue'
+
+export default {
+  name: 'HomeView',
+  components: {
+    View
+  }
+}
+</script>

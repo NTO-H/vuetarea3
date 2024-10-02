@@ -28,12 +28,12 @@
 
       <div v-if="encryptedDataAsym">
         <h3>Datos Cifrados Asimétricos:</h3>
-        <Textarea auto v-model="encryptedDataAsym" class="data-display" rows="5" autoResize></Textarea>
+        <textarea v-model="encryptedDataAsym" class="data-display" rows="5"></textarea>
       </div>
 
       <div v-if="decryptedDataAsym">
         <h3>Datos Descifrados Asimétricos:</h3>
-        <Textarea v-model="decryptedDataAsym" class="data-display" rows="5" autoResize></Textarea>
+        <textarea v-model="decryptedDataAsym" class="data-display" rows="5"></textarea>
       </div>
     </div>
 
@@ -65,12 +65,12 @@
 
       <div v-if="encryptedDataSym">
         <h3>Datos Cifrados Simétricos:</h3>
-        <Textarea v-model="encryptedDataSym" class="data-display" rows="5" autoResize></Textarea>
+        <textarea v-model="encryptedDataSym" class="data-display" rows="5"></textarea>
       </div>
 
       <div v-if="decryptedDataSym">
         <h3>Datos Descifrados Simétricos:</h3>
-        <Textarea v-model="decryptedDataSym" class="data-display" rows="5" autoResize></Textarea>
+        <textarea v-model="decryptedDataSym" class="data-display" rows="5"></textarea>
       </div>
     </div>
   </div>
@@ -78,13 +78,9 @@
 
 <script>
 import forge from 'node-forge';
-import Textarea from 'primevue/textarea';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  components: {
-    Textarea
-  },
   data() {
     return {
       formData: {
@@ -131,12 +127,12 @@ export default defineComponent({
       cipher.update(forge.util.createBuffer(data, 'utf8'));
       cipher.finish();
       const encrypted = cipher.output;
-      return forge.util.encode64(iv + encrypted.getBytes());  // Concatenación correcta
+      return forge.util.encode64(iv + encrypted.getBytes());
     },
     decryptDataSym(encryptedData) {
       const decoded = forge.util.decode64(encryptedData);
-      const iv = decoded.slice(0, 16);  // IV es el primer bloque
-      const encrypted = decoded.slice(16);  // Datos cifrados
+      const iv = decoded.slice(0, 16);
+      const encrypted = decoded.slice(16);
       const decipher = forge.cipher.createDecipher('AES-CBC', this.secretKey);
       decipher.start({ iv });
       decipher.update(forge.util.createBuffer(encrypted));
@@ -167,7 +163,6 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.submitFormAsym();
     this.generateKeys();
   },
 });
